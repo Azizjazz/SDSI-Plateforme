@@ -12,7 +12,7 @@ Convert PowerPoint (`.pptx`) to **HTML** + **Markdown** reports with quality eva
 
 ```bash
 git clone https://github.com/Azizjazz/SDSI-Plateforme.git
-cd SDSI-Plateforme
+cd "SDSI-Plateforme"
 python -m venv .venv
 
 # Windows:
@@ -26,7 +26,7 @@ pip install python-pptx
 ## Usage
 
 ```bash
-python generate_report.py presentation.pptx
+python generate_report.py "presentation.pptx"
 ```
 
 Output (in `outputs/presentation/`):
@@ -48,11 +48,15 @@ outputs/{name}/
 ### Examples
 
 ```bash
-# Basic
-python generate_report.py slides.pptx
+# Basic (quotes required for paths with spaces)
+python generate_report.py "slides.pptx"
 
 # Custom output dir, skip optional tools
-python generate_report.py slides.pptx -o my_report --no-md --no-p2
+python generate_report.py "slides.pptx" -o "my_report" --no-md --no-p2
+
+# Full comparison (install optional tools first)
+pip install markitdown pptx2md
+python generate_report.py "slides.pptx"
 ```
 
 ## HTML Report
