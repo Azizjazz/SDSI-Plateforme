@@ -94,7 +94,3 @@ Per-slide extraction (text, tables, charts, hyperlinks, notes) plus evaluation s
 ├── pyproject.toml
 └── README.md
 ```
-
-## License
-
-MIT
