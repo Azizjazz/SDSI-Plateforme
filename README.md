@@ -1,26 +1,25 @@
 # pptx-report
 
-Convert PowerPoint (`.pptx`) files to clean Markdown with automatic quality evaluation.
+Convert PowerPoint (`.pptx`) to **HTML** + **Markdown** reports with quality evaluation. Compares 3 extraction engines side-by-side.
 
-Extracts text, tables, charts, hyperlinks, and speaker notes from every slide and produces a well-formatted `.md` file with per-slide breakdown and overall quality scores.
+| Engine | Format | |
+|--------|--------|-|
+| **python-pptx** | Plain text | Always available |
+| **MarkItDown** | Markdown | Optional (`pip install markitdown`) |
+| **pptx2md** | Markdown | Optional (`pip install pptx2md`) |
 
 ## Quick Start
 
 ```bash
-# 1. Clone & enter
-git clone https://github.com/anomalyco/pptx-report.git
-cd pptx-report
-
-# 2. Create virtual environment
+git clone https://github.com/Azizjazz/SDSI-Plateforme.git
+cd SDSI-Plateforme
 python -m venv .venv
 
-# 3. Activate it
-#    Windows:
+# Windows:
 .venv\Scripts\activate
-#    macOS / Linux:
+# macOS/Linux:
 source .venv/bin/activate
 
-# 4. Install dependency
 pip install python-pptx
 ```
 
@@ -30,84 +29,70 @@ pip install python-pptx
 python generate_report.py presentation.pptx
 ```
 
-This creates `presentation.md` in the same directory, containing:
+Output (in `outputs/presentation/`):
 
-- Extracted text from every slide
-- Formatted markdown tables
-- Chart descriptions with data series
-- Hyperlinks as `[text](url)`
-- Speaker notes
-- **Evaluation section** with quality metrics and overall score
+```
+outputs/{name}/
+├── report.html     # Interactive HTML: scores + side-by-side slide viewer
+└── report.md       # Clean Markdown: extracted text + evaluation tables
+```
 
 ### Options
 
 | Flag | Description |
 |------|-------------|
-| `-o output.md` | Custom output path |
+| `-o DIR` | Output directory (default: `outputs/`) |
+| `--no-md` | Skip MarkItDown extraction |
+| `--no-p2` | Skip pptx2md extraction |
 
-### Example
+### Examples
 
 ```bash
-python generate_report.py slides.pptx -o report/slides.md
+# Basic
+python generate_report.py slides.pptx
+
+# Custom output dir, skip optional tools
+python generate_report.py slides.pptx -o my_report --no-md --no-p2
 ```
 
-## Output Example
+## HTML Report
 
-```markdown
-# slides
+Two tabs:
+- **Scores** — 3 score cards with weighted metrics (Content 35%, Cleanliness 30%, Coverage 35%), formula explanations, progress bars
+- **Slide-by-Slide** — Navigate with Prev/Next or arrow keys, 3 columns comparing tool outputs, speaker notes panel
 
-> Generated 2026-05-15 14:30 · 12 slides
+## Markdown Report
 
----
+Per-slide extraction (text, tables, charts, hyperlinks, notes) plus evaluation section:
 
-## Slide 1
-
-Project Overview
-
-### Tables
-
-| Name | Status |
-|------|--------|
-| Alpha | Done |
-| Beta | In Progress |
-
----
-
+```
 ## Evaluation
 
-| Metric | Value |
-|--------|-------|
-| Total Slides | 12 |
-| Total Characters | 8450 |
-| Coverage | 100% |
-| **Overall** | **92.4%** |
+### Extraction Stats
+| Total Slides | 90 | Tables | 45 | ...
+
+### Tool Comparison Scores
+| Score | python-pptx | MarkItDown | pptx2md |
+| Content (35%) | 32.2% | 100% | 100% |
+
+### Quality Score
+| Coverage (50%) | 98.9% | Overall: 85.1% |
 ```
-
-## Quality Scores
-
-The evaluation section scores each extraction:
-
-| Score | Weight | What it measures |
-|-------|--------|------------------|
-| **Coverage** | 50% | % of non-empty slides |
-| **Text Density** | 30% | Characters extracted vs expected minimum |
-| **Richness** | 20% | Tables, charts, links, and notes per slide |
-
-Each slide is evaluated individually — empty slides, missing tables, or sparse text
-are reflected in the final score.
 
 ## Requirements
 
 - Python 3.10+
-- [python-pptx](https://python-pptx.readthedocs.io/) — the only dependency
+- `python-pptx` (required)
+- `markitdown` (optional, for comparison)
+- `pptx2md` (optional, for comparison)
 
 ## Project Structure
 
 ```
-pptx-report/
-├── generate_report.py   # Main script (single file, zero configuration)
-├── requirements.txt     # Dependency list
-└── README.md            # This file
+├── generate_report.py   # Single script, zero config
+├── requirements.txt
+├── pyproject.toml
+└── README.md
 ```
 
 ## License
