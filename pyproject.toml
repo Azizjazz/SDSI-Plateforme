@@ -1,0 +1,8 @@
+[project]
+name = "pptx-report"
+version = "3.0.0"
+description = "Convert PPTX to Markdown with quality evaluation"
+requires-python = ">=3.10"
+dependencies = [
+    "python-pptx>=1.0.0",
+]
